@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>Project Tasks: {{ task.title }}</title>
+    </head>
+    <body>
+        <h2>Project Details: {{ task.title }}</h2>
+
+        <h3>function:</h3>
+        <ul>
+            {% for function in functions %}
+            <li><a href="{% url 'functions' task.id %}">{{ function.name }}</a>: 
+                <ul>
+                    <li>{{ function.time_worked }}</li>
+                    <li>{{ function.worker.name }}</li>
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+        <h3>Create a new function</h3>
+            <form method="post" action="{% url 'functions' task.id %}">
+                {% csrf_token %}
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br>
+                <label for="time_worked">Time Worked:</label>
+                <input type="text" id="time_worked" name="time_worked" required><br>
+                <input type="hidden" id="task" name="task" value="{{task.id}}">
+                <select name="worker">
+                    {% for worker in workers %}
+                        {% if worker.project.id == project.id %}
+                            <option value="{{worker.id}}">{{ worker.name }}</option>
+                        {% endif%}
+                    {% endfor %}
+                </select><br>
+                <button type="submit">Create Function</button>
+            </form>
+    </body>
+</html>

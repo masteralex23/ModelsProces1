@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>Project Tasks: {{ project.name }}</title>
+    </head>
+    <body>
+        <h2>Project Details: {{ project.name }}</h2>
+
+        <h3>Tasks:</h3>
+        <ul>
+            {% for task in tasks %}
+            <li><a href="{% url 'functions' task.id %}">{{ task.title }}</a>: {{ task.description }}</li>
+            {% endfor %}
+        </ul>
+        <h3>Create a new task</h3>
+            <form method="post" action="{% url 'tasks' project.id %}">
+                {% csrf_token %}
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required><br>
+                <label for="description">Description:</label>
+                <input type="text" size="50" id="description" name="description" required><br>
+                <input type="hidden" id="project" name="project" value="{{project.id}}">
+                <button type="submit" name="create_task">Create Task</button>
+            </form>
+
+
+        <h3>Workers:</h3>
+        <ul>
+            {% for worker in workers %}
+            <li>{{ worker.name }}</li>
+            {% endfor %}
+        </ul>
+        <h3>Create a new worker</h3>
+        <form method="post" action="{% url 'tasks' project.id %}">
+            {% csrf_token %}
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br>
+            <input type="hidden" id="project" name="project" value="{{ project.id }}">
+            <button type="submit" name="create_worker">Create Worker</button>
+        </form>
+    </body>
+</html>

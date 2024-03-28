@@ -1,0 +1,20 @@
+<head>
+    <title>Lista de Proyectos</title>
+</head>
+<body>
+    <h1>Welcome to my Project Manager</h1>
+    <h3>Please Select the project you want to see or add a project:</h3>
+    <ul>
+        {% for project in projects %}
+        <li><a href="{% url 'tasks' project.id %}">{{ project.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h3>Create a new project</h3>
+    <form method="post" action="{% url 'index' %}">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <button type="submit">Create Project</button>
+    </form>
+</body>
